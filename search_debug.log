@@ -1,0 +1,23 @@
+2025-04-27 22:20:10 - Starting search for: hey
+2025-04-27 22:20:10 - Searching local database
+2025-04-27 22:20:10 - Found local books: 1
+2025-04-27 22:20:10 - Fetching from Google Books API: https://www.googleapis.com/books/v1/volumes?q=hey&maxResults=20
+2025-04-27 22:20:11 - Processing Google Books results: 20
+2025-04-27 22:20:11 - Processing Google book
+Array
+(
+    [id] => DvCmDwAAQBAJ
+)
+
+2025-04-27 22:20:11 - Found existing book
+Array
+(
+    [isbn] => 9781476636115
+)
+
+2025-04-27 22:20:11 - Processing Google book
+Array
+(
+    [id] => Jo9UAAAAcAAJ
+)
+

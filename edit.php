@@ -1,27 +1,44 @@
 <?php
-require("connection.php");
+require_once 'connection.php';
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['UserID'])) {
+    header('Location: userlogin.php');
+    exit();
+}
 
 if (isset($_POST['edit'])) {
-    $userID = mysqli_real_escape_string($con, $_POST['userID']);
-    $firstName = mysqli_real_escape_string($con, $_POST['firstName']);
-    $lastName = mysqli_real_escape_string($con, $_POST['lastName']);
-    $email = mysqli_real_escape_string($con, $_POST['email']);
-    $idNumber = mysqli_real_escape_string($con, $_POST['idNumber']);
-    $registrationDate = mysqli_real_escape_string($con, $_POST['registrationDate']);
+    try {
+        $userID = $_POST['userID'];
+        $name = $_POST['name'];
+        $lastName = $_POST['lastName'];
+        $email = $_POST['email'];
+        $idNumber = $_POST['idNumber'];
+        $registrationDate = $_POST['registrationDate'];
 
-    $sql = "UPDATE tbl_User SET 
-                FirstName = '$firstName',
-                LastName = '$lastName',
-                Email = '$email',
-                IDNumber = '$idNumber',
-                RegistrationDate = '$registrationDate'
-            WHERE UserID = '$userID'";
+        $stmt = $pdo->prepare("UPDATE tbl_User SET 
+            Name = ?,
+            LastName = ?,
+            Email = ?,
+            IDNumber = ?,
+            RegistrationDate = ?
+            WHERE UserID = ?");
 
-    if (mysqli_query($con, $sql)) {
+        $stmt->execute([
+            $name,
+            $lastName,
+            $email,
+            $idNumber,
+            $registrationDate,
+            $userID
+        ]);
+
         header("Location: borrowform.php");
         exit();
-    } else {
-        echo "Error updating record: " . mysqli_error($con);
+    } catch (PDOException $e) {
+        error_log("Error updating user: " . $e->getMessage());
+        echo "Error updating record. Please try again.";
     }
 } else {
     echo "Invalid access.";
